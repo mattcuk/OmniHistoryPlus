@@ -1,0 +1,35 @@
+{
+    "name": "OmniHistoryPlus",
+    "description": "Search your entire browser history from the Omnibar. Type 'f' followed by a tab or space to activate this feature, then type what you want to search for.",
+    "version": "1.0.0",
+    "manifest_version": 3,
+    "minimum_chrome_version": "120",
+    "icons": {
+        "16": "/img/logo16.png",
+        "19": "/img/logo19.png",
+        "48": "/img/logo48.png",
+        "128": "/img/logo128.png"
+    },
+    "background": {
+        "service_worker": "background.js"
+    },
+    "action": {
+        "default_popup": "popup.html",
+        "default_icon": {
+            "16": "/img/logo16.png",
+            "19": "/img/logo19.png",
+            "48": "/img/logo48.png",
+            "128": "/img/logo128.png"
+        }
+    },
+    "permissions": [
+        "storage",
+        "tabs",
+        "activeTab",
+        "bookmarks",
+        "history"
+    ],
+    "omnibox": {
+        "keyword": "f"
+    }
+}
