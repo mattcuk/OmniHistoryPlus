@@ -1,6 +1,6 @@
 {
     "name": "OmniHistoryPlus",
-    "description": "Search your entire browser history from the Omnibar. Type 'f' followed by a tab or space to activate this feature, then type what you want to search for.",
+    "description": "Search your entire browser history from the Omnibar. Hit 'f' followed by a tab or space to activate this feature, then just search!",
     "version": "1.0.0",
     "manifest_version": 3,
     "minimum_chrome_version": "120",
