@@ -14,11 +14,12 @@ chrome.omnibox.onInputStarted.addListener(function () {
 });
 
 chrome.omnibox.onInputChanged.addListener(function (searchText, suggest) {
+    
     if (searchText.length>1) {
         chrome.history.search({ text: searchText, startTime: 0 }, function (results) {
             var suggestions = [];
             
-            var limit = 30; // Limits the total number of results in the omnibox to this.. should help with performance when dealing with long lists
+            var limit = 15; // Limits the total number of results in the omnibox to this.. should help with performance when dealing with long lists
             if(results.length<limit) limit = results.length;
 
             var titleLimit = 80; // Limits the page titles to this number of characters when displayed in the omnibox
@@ -29,7 +30,7 @@ chrome.omnibox.onInputChanged.addListener(function (searchText, suggest) {
                     if(result.title.length>1) {
                         suggestions.push({
                             content: result.url, 
-                            description: xmlEncode(limitText(result.title, titleLimit)) + ' - <url>' +xmlEncode(tidyUrl(result.url))+'</url>', 
+                            description: addMatches(xmlEncode(limitText(result.title, titleLimit)), searchText) + ' - <url>' +addMatches(xmlEncode(tidyUrl(result.url)), searchText)+'</url>', 
                             deletable: false });
                     }
                 });
@@ -54,6 +55,20 @@ chrome.omnibox.onInputEntered.addListener((url, disposition) => {
             break;
     }
 });
+
+// Bold any matching search words found in the suggestions
+function addMatches(text, searchText) {
+    var searchSplit = searchText.split(' ');
+
+    for(var i=0; i<(searchSplit.length); i++) {
+        if(searchSplit[i].length>1) {
+            var regEx = new RegExp(searchSplit[i], "ig");
+            text = text.replace(regEx, '<match>'+searchSplit[i]+'</match>');
+        }
+    }
+    
+    return text;
+}
 
 // Encode characters for XML
 function xmlEncode(str) {
