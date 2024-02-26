@@ -23,10 +23,7 @@
         }
     },
     "permissions": [
-        "storage",
-        "tabs",
         "activeTab",
-        "bookmarks",
         "history"
     ],
     "omnibox": {
