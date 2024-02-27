@@ -63,7 +63,9 @@ function addMatches(text, searchText) {
     for(var i=0; i<(searchSplit.length); i++) {
         if(searchSplit[i].length>1) {
             var regEx = new RegExp(searchSplit[i], "ig");
-            text = text.replace(regEx, '<match>'+searchSplit[i]+'</match>');
+            text = text.replace(regEx, function(match) {
+                return '<match>' + match + '</match>';
+            });
         }
     }
     
