@@ -16,29 +16,48 @@ chrome.omnibox.onInputStarted.addListener(function () {
 chrome.omnibox.onInputChanged.addListener(function (searchText, suggest) {
     
     if (searchText.length>1) {
-        chrome.history.search({ text: searchText, startTime: 0 }, function (results) {
-            var suggestions = [];
-            
-            var limit = 15; // Limits the total number of results in the omnibox to this.. should help with performance when dealing with long lists
-            if(results.length<limit) limit = results.length;
+        
+        chrome.storage.local.get(['maxSuggestions', 'maxSuggestionsDisplay', 'showDebug', 'hoursAgo'], (data) => {
+            const maxSuggestions = data.maxSuggestions || 200;
+            var maxSuggestionsDisplay = data.maxSuggestionsDisplay || 10;
+            const showDebug = data.showDebug || false;
 
-            var titleLimit = 80; // Limits the page titles to this number of characters when displayed in the omnibox
+            chrome.history.search({ text: searchText, startTime: 0, maxResults: maxSuggestions }, function (results) {
+                var suggestions = [];
 
-            // Loop over history results & format them into suggestions for the omnibox to display
-            for(var i=0; i<results.length; i++) {
-                results.forEach(function (result) {
-                    if(result.title.length>1) {
+                // Limits the total number of results in the omnibox to this.. may help with performance when dealing with long lists
+                if (results.length < maxSuggestionsDisplay) maxSuggestionsDisplay = results.length;
+
+                var titleLimit = 80; // Limits the page titles to this number of characters when displayed in the omnibox
+
+                // Loop over history results & format them into suggestions for the omnibox to display
+                for (var i = 0; i < maxSuggestionsDisplay; i++) {
+                    var result = results[i];
+                    if (result.title.length > 1) {
+
+                        // Show a bit of debug info against each result. Visit count + last date accessed
+                        var debugInfo = '';
+                        if(showDebug) {
+                            var dt = new Date(result.lastVisitTime);
+                            var dtFmt = dt.getDate() + '/' + (dt.getMonth() + 1) + '/' + dt.getFullYear();
+                            debugInfo = '<url>[' + result.visitCount + '|' + dtFmt + ']</url> ';
+                        }
+
+                        // Format the suggestion for display & add it to the array
                         suggestions.push({
-                            content: result.url, 
-                            description: addMatches(xmlEncode(limitText(result.title, titleLimit)), searchText) + ' - <url>' +addMatches(xmlEncode(tidyUrl(result.url)), searchText)+'</url>', 
-                            deletable: false });
+                            content: result.url,
+                            description: debugInfo + addMatches(xmlEncode(limitText(result.title, titleLimit)), searchText) + ' - <url>' + addMatches(xmlEncode(tidyUrl(result.url)), searchText) + '</url>',
+                            deletable: false
+                        });
                     }
-                });
-            }
+                }
 
-            // Display the suggestions from browse history
-            suggest(suggestions);
+                // Display the suggestions in the omnibar
+                suggest(suggestions);
+            });
+
         });
+
     }
 });
 

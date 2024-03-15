@@ -1,0 +1,9 @@
+body {
+    color: rgb(0, 0, 0);
+    width:400px;
+    font-size: 13px;
+}
+
+input[type=number] {
+    width: 50px;
+}
