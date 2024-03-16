@@ -9,7 +9,7 @@ console.log('background.js loaded');
 chrome.omnibox.onInputStarted.addListener(function () {
     chrome.omnibox.setDefaultSuggestion({
         description:
-            "🚀 Search through your full browse history ... "
+            "🚀 Search through your full browse history "
     });
 });
 
@@ -75,7 +75,7 @@ chrome.omnibox.onInputEntered.addListener((url, disposition) => {
     }
 });
 
-// Bold any matching search words found in the suggestions
+// Bold any matching search words found in the suggestions (handles mixed case)
 function addMatches(text, searchText) {
     var searchSplit = searchText.split(' ');
 

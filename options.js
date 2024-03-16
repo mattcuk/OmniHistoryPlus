@@ -18,14 +18,14 @@ $('#save').on('click', function (event) {
         chrome.storage.local.set({ maxSuggestions: parseInt(maxSuggestions) });
         $('#message').html('Setting saved.');
     } else {
-        $('#message').html('\'Number of results to retrieve from Chrome API\' needs to be above 0 and below 250.');
+        $('#message').html('\'<i>Number of results to retrieve from Chrome API</i>\' needs to be between 0 and 250.');
     }
 
-    if (!isNaN(maxSuggestionsDisplay) && maxSuggestionsDisplay > 0 && maxSuggestionsDisplay < 30) {
+    if (!isNaN(maxSuggestionsDisplay) && maxSuggestionsDisplay > 0 && maxSuggestionsDisplay < 20) {
         chrome.storage.local.set({ maxSuggestionsDisplay: parseInt(maxSuggestionsDisplay) });
         $('#message').html('Setting saved.');
     } else {
-        $('#message').html('\'Max results to filter for display\' in the omnibar itself. Needs to be below 30.');
+        $('#message').html('\'<i>Max results to filter for display</i>\' in the omnibar itself. Should be between 0 and 20.');
     }
 
     chrome.storage.local.set({ showDebug: showDebug });

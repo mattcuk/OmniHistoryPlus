@@ -7,3 +7,7 @@ body {
 input[type=number] {
     width: 50px;
 }
+
+img {
+    vertical-align: text-top;
+}
