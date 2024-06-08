@@ -12,7 +12,7 @@ Inspired by [Fauxbar](https://github.com/ChrisNZL/Fauxbar), which was an awesome
 
 [Icon](https://www.svgrepo.com/svg/449050/document-time) by UXAspects under Apache License.
 
-# 'New Tab' Campaign
+# 'New Tab' Crowdfunding Campaign
 
 While OmniHistoryPlus does a great job of searching your browse history, one thing it currently lacks is a search bar on the 'New Tab' page. Implementing this functionality would require a significant amount of additional coding, and I'm not entirely sure how many users would find it truly beneficial. However, I've come up with an idea – a crowdfunding campaign! 
 
